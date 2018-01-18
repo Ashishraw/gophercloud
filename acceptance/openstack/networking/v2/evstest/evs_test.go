@@ -1,17 +1,19 @@
 package v1
 
 import (
-	"github.com/gophercloud/gophercloud/acceptance/clients"
+	"github.com/Ashishraw/gophercloud/acceptance/clients"
 	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"testing"
 	"github.com/Ashishraw/gophercloud/openstack/networking/v2/evs"
+
 )
 
 
 // this function code will test list of volume available
 
 func TestEvsList(t *testing.T) {
-	client, err := clients.NewEvsV2Client()
+	client, err := clients.NewEvsV2Clients()
+
 	if err != nil {
 		t.Fatalf("Unable to create a Evs client: %v", err)
 	}
@@ -29,7 +31,7 @@ func TestEvsList(t *testing.T) {
 // this function code will test single volume who's id is provided if volume is available
 
 func TestEvsVolume(t *testing.T) {
-	client, err := clients.NewEvsV2Client()
+	client, err := clients.NewEvsV2Clients()
 	if err != nil {
 		t.Fatalf("Unable to create a Evs client: %v", err)
 	}
