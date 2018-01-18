@@ -8,6 +8,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack/networking/v1/vpcs"
 )
 
+// this function will test creation of VPC with provided option
 func CreateVpc(t *testing.T, client *gophercloud.ServiceClient) (*vpcs.Vpc, error) {
 
 	vpcName := tools.RandomString("TESTACC-", 8)

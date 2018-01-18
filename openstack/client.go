@@ -45,7 +45,7 @@ func NewClient(endpoint string) (*gophercloud.ProviderClient, error) {
 		IdentityEndpoint: "",
 	}, nil
 }
-
+//
 // AuthenticatedClient logs in to an OpenStack cloud found at the identity endpoint specified by options, acquires a token, and
 // returns a Client instance that's ready to operate.
 // It first queries the root identity endpoint to determine which versions of the identity service are supported, then chooses

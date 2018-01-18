@@ -7,6 +7,9 @@ import (
 	"github.com/Ashishraw/gophercloud/openstack/networking/v2/evs"
 )
 
+
+// this function code will test list of volume available
+
 func TestEvsList(t *testing.T) {
 	client, err := clients.NewEvsV2Client()
 	if err != nil {
@@ -23,6 +26,7 @@ func TestEvsList(t *testing.T) {
 	}
 }
 
+// this function code will test single volume who's id is provided if volume is available
 
 func TestEvsVolume(t *testing.T) {
 	client, err := clients.NewEvsV2Client()
@@ -30,9 +34,10 @@ func TestEvsVolume(t *testing.T) {
 		t.Fatalf("Unable to create a Evs client: %v", err)
 	}
 
-	volume_id  := "e1163763-3f54-46b7-a0a5-f24fe344a0f1"
+	// available Id taken
+	volume_id  := "df712809-2492-4606-97fc-4e19c1a91bb0"
 	//listOpts := evs.ListOpts{}
-	Result := evs.Get(client,volume_id)
+	Result  := evs.Get(client,volume_id)
 	if err != nil {
 		t.Fatalf("Unable to list routers: %v", err)
 	}
