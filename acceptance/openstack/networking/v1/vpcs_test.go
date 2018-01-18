@@ -5,10 +5,12 @@ import (
 	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/networking/v1/vpcs"
 	"testing"
+
 )
 
 func TestVpcList(t *testing.T) {
 	client, err := clients.NewVpcV1Client()
+
 	if err != nil {
 		t.Fatalf("Unable to create a vpc client: %v", err)
 	}

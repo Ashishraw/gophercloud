@@ -22,7 +22,7 @@ type ListOpts struct {
 
 
 // List returns collection of
-// evc. It accepts a ListOpts struct, which allows you to filter and sort
+// Evs. It accepts a ListOpts struct, which allows you to filter and sort
 // the returned collection for greater efficiency.
 //
 // Default policy settings return only those evs that are owned by the
