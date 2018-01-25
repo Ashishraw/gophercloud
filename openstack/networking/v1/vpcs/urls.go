@@ -1,6 +1,9 @@
 package vpcs
 
-import "github.com/gophercloud/gophercloud"
+import (
+	"github.com/gophercloud/gophercloud"
+
+)
 
 const resourcePath = "vpcs"
 

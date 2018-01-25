@@ -45,7 +45,7 @@ func NewClient(endpoint string) (*gophercloud.ProviderClient, error) {
 		IdentityEndpoint: "",
 	}, nil
 }
-//
+
 // AuthenticatedClient logs in to an OpenStack cloud found at the identity endpoint specified by options, acquires a token, and
 // returns a Client instance that's ready to operate.
 // It first queries the root identity endpoint to determine which versions of the identity service are supported, then chooses
@@ -202,6 +202,7 @@ func GetProjectId(client *gophercloud.ProviderClient) (string, error) {
 }
 
 func getV2ProjectId(client *gophercloud.ProviderClient, endpoint string) (string, error) {
+
 	v2Client, err := NewIdentityV2(client, gophercloud.EndpointOpts{})
 	if err != nil {
 		return "", err
@@ -221,6 +222,7 @@ func getV2ProjectId(client *gophercloud.ProviderClient, endpoint string) (string
 }
 
 func getV3ProjectId(client *gophercloud.ProviderClient, endpoint string) (string, error) {
+
 	v3Client, err := NewIdentityV3(client, gophercloud.EndpointOpts{})
 	if err != nil {
 		return "", err
@@ -244,7 +246,7 @@ func NewIdentityV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOp
 	endpoint := client.IdentityBase + "v2.0/"
 	clientType := "identity"
 	var err error
-	if !reflect.DeepEqual(eo, gophercloud.EndpointOpts{}) {
+	if !reflect.DeepEqual(eo,gophercloud.EndpointOpts{}) {
 		eo.ApplyDefaults(clientType)
 		endpoint, err = client.EndpointLocator(eo)
 		if err != nil {
@@ -337,18 +339,19 @@ func NewVpcV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (
 	sc.ResourceBase = sc.Endpoint + "v1/" + pid + "/"
 	return sc, err
 }
-// NewEvsV2 creates a ServiceClient that may be used with the v1 VPC for OTC.
-func NewEvsV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
 
+// NewEvsV2 creates a ServiceClient that may be used
+func NewEvsV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
 	pid, e := GetProjectId(client)
 	if e != nil {
 		return nil, e
 	}
 
-	sc, err := initClientOpts(client, eo, "network")
+	sc, err := initClientOpts(client, eo, "volume")
 	sc.ResourceBase = sc.Endpoint + "v2/" + pid + "/"
 	return sc, err
 }
+
 
 // NewOtcV1 creates a ServiceClient that may be used with the v1 network package.
 func NewOtcV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts, otctype string) (*gophercloud.ServiceClient, error) {
@@ -370,6 +373,12 @@ func NewBlockStorageV1(client *gophercloud.ProviderClient, eo gophercloud.Endpoi
 func NewBlockStorageV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
 	return initClientOpts(client, eo, "volumev2")
 }
+
+// NewEvsServiceClientV2 creates a ServiceClient that may be used to access volumes
+func NewEvsServiceClientV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+	return initClientOpts(client, eo, "volume")
+}
+
 
 // NewSharedFileSystemV2 creates a ServiceClient that may be used to access the v2 shared file system service.
 func NewSharedFileSystemV2(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {

@@ -23,7 +23,7 @@ type EVS struct{
 
 	//Snapshot_id string `json:"snapshot_id"`
 
-	Volumes string `json:"volumes"`    // not coming
+	Volumes string `json:"volumes"`
 
    // attachments list[map[string]string] `json:"attachments"`
 
@@ -78,6 +78,7 @@ func (r EVSPage) IsEmpty() (bool, error) {
 	return len(is) == 0, err
 }
 
+// Extract is a function that accepts a result and extracts a evs.
 func (r commonResult) Extract() (*EVS, error) {
 	var s struct {
 		Evs *EVS `json:"volumes"`
@@ -94,20 +95,14 @@ func (r commonResult) Extract() (*EVS, error) {
 func ExtractEVS(r pagination.Page) ([]EVS, error) {
 	var s struct {
 		Evs []EVS `json:"volumes"`
+		//Evs []EVS `json:"evs"`
 		}
 	err := (r.(EVSPage)).ExtractInto(&s)
 	return s.Evs, err
 }
 
-type GetResult struct {
-	commonResult
-}
-
 // VpcPage is the page returned by a pager when traversing over a
 // collection of vpcs.
-
-
-
 type EVSPage struct {
 	pagination.LinkedPageBase
 }
@@ -116,3 +111,26 @@ type commonResult struct {
 	gophercloud.Result
 }
 
+// CreateResult represents the result of a create operation. Call its Extract
+// method to interpret it as a Vpc.
+type CreateResult struct {
+	commonResult
+}
+
+// GetResult represents the result of a get operation. Call its Extract
+// method to interpret it as a Vpc.
+type GetResult struct {
+	commonResult
+}
+
+// UpdateResult represents the result of an update operation. Call its Extract
+// method to interpret it as a Vpc.
+type UpdateResult struct {
+	commonResult
+}
+
+// DeleteResult represents the result of a delete operation. Call its ExtractErr
+// method to determine if the request succeeded or failed.
+type DeleteResult struct {
+	gophercloud.ErrResult
+}
