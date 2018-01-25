@@ -164,7 +164,6 @@ type UpdateOptsBuilder interface {
 type UpdateOpts struct {
 	Name string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
-	Size int `json:"size,omitempty"`
 }
 
 // ToEvsUpdateMap builds an update body based on UpdateOpts.
@@ -188,6 +187,39 @@ func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r 
 	})
 	return
 }
+
+// UpdateOptsBuilder allows extensions to add additional parameters to the
+// Update request.
+type UpdateSizeBuilder interface {
+	ToEvsUpdateSizeMap() (map[string]interface{}, error)
+}
+
+
+// UpdateOpts contains the values used when updating a evs.
+type UpdateSize struct {
+	Size int `json:"new_size,omitempty"`
+}
+
+// ToEvsUpdateSizeMap builds an update body based on UpdateOpts.
+func (opts UpdateSize) ToEvsUpdateSizeMap() (map[string]interface{}, error) {
+	return gophercloud.BuildRequestBody(opts, "os-extend")
+}
+
+
+func ExtendSize(c *gophercloud.ServiceClient, id string, opts UpdateSizeBuilder) (r UpdateResult) {
+
+	b, err := opts.ToEvsUpdateSizeMap()
+	if err != nil {
+		r.Err = err
+		return
+	}
+	_, r.Err = c.Post(EvsURLSizeUpdate(c,id), b, &r.Body, &gophercloud.RequestOpts{
+		OkCodes: []int{200},
+	})
+	return
+}
+
+
 
 // Delete will permanently delete a particular Evs based on its unique ID.
 func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
